@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WiFi Setup - Krasitska T.</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #fdf2f8; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .setup-box { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 300px; text-align: center; }
+        h2 { color: #db2777; margin-bottom: 20px; }
+        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #f9a8d4; border-radius: 8px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background: #db2777; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; }
+        button:hover { background: #be185d; }
+    </style>
+</head>
+<body>
+    <div class="setup-box">
+        <h2>Налаштування Wi-Fi</h2>
+        <form action="/save" method="POST">
+            <input type="text" name="ssid" placeholder="Назва мережі (SSID)" required>
+            <input type="password" name="pass" placeholder="Пароль" required>
+            <button type="submit">Зберегти та підключити</button>
+        </form>
+        <p style="font-size: 0.8em; color: #9d174d; margin-top: 15px;">Студентка: Красіцька Тетяна</p>
+    </div>
+</body>
+</html>
