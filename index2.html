@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>REST API Control - Krasitska T.</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #fdf2f8; text-align: center; padding: 50px; }
+        .card { background: white; max-width: 400px; margin: auto; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        h2 { color: #db2777; }
+        .btn { padding: 15px 30px; font-size: 18px; cursor: pointer; border: none; border-radius: 10px; margin: 10px; transition: 0.3s; }
+        .on { background: #4ade80; color: white; }
+        .off { background: #f87171; color: white; }
+        .btn:hover { opacity: 0.8; transform: scale(1.05); }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>Керування LED</h2>
+        <p>Студентка: Красіцька Тетяна</p>
+        <button class="btn on" onclick="setLED(1)">Увімкнути</button>
+        <button class="btn off" onclick="setLED(0)">Вимкнути</button>
+    </div>
+
+    <script>
+        function setLED(state) {
+            fetch('/api/led', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({status: state})
+            }).then(response => response.json())
+              .then(data => console.log('Успіх:', data));
+        }
+    </script>
+</body>
+</html>
