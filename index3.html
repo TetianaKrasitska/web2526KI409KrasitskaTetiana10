@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lab 3 | Live Telemetry - Krasitska T.</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #fdf2f8; text-align: center; color: #831843; padding: 20px; }
+        .container { background: white; max-width: 800px; margin: auto; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 1px solid #fbcfe8; }
+        .val-box { font-size: 3em; font-weight: bold; color: #db2777; margin: 20px 0; }
+        h2 { margin-top: 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Potentiometer Monitoring</h2>
+        <p>Student: Tetiana Krasitska | Sensor: Potentiometer (ADC)</p>
+        <div class="val-box"><span id="adcValue">0</span></div>
+        <canvas id="liveChart"></canvas>
+    </div>
+
+    <script>
+        const ctx = document.getElementById('liveChart').getContext('2d');
+        const chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'ADC Value (0-4095)',
+                    data: [],
+                    borderColor: '#db2777',
+                    backgroundColor: 'rgba(219, 39, 119, 0.1)',
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: { scales: { y: { min: 0, max: 4096 } }, animation: false }
+        });
+
+        const gateway = `ws://${window.location.hostname}/ws`;
+        let socket = new WebSocket(gateway);
+
+        socket.onmessage = function(event) {
+            const data = JSON.parse(event.data);
+            document.getElementById('adcValue').innerText = data.value;
+            
+            const now = new Date().toLocaleTimeString();
+            chart.data.labels.push(now);
+            chart.data.datasets[0].data.push(data.value);
+
+            if (chart.data.labels.length > 20) {
+                chart.data.labels.shift();
+                chart.data.datasets[0].data.shift();
+            }
+            chart.update();
+        };
+    </script>
+</body>
+</html>
